@@ -1,0 +1,9 @@
+{
+  "name": "dimitent-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DIMITENT — Τέντες & Σκίαστρα Θεσσαλονίκη",
+  "dependencies": {
+    "nodemailer": "6.9.14"
+  }
+}

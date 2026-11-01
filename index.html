@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DIMITENT — Κατασκευή & Τοποθέτηση Τεντών στη Θεσσαλονίκη. Τέντες καταστημάτων, βεράντας, περγκόλες & αυτόματες τέντες. Από το 1971. Πιστοί στην ποιότητα.">
+    <meta name="description" content="DIMITENT — Κατασκευή & Τοποθέτηση Τεντών στη Θεσσαλονίκη. Τέντες καταστημάτων, βεράντας, περγκόλες & αυτόματες τέντες. Από το 1971. Μένουμε πιστοί στην ποιότητα.">
     <title>DIMITENT — Τέντες & Σκίαστρα Θεσσαλονίκη</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
             </ul>
             <a href="#contact" class="btn btn-red nav-cta">Ζητήστε Προσφορά</a>
             <div class="nav-social">
-                <a href="https://www.facebook.com/dimitriadismousamas" target="_blank" rel="noopener" class="nav-social-link" aria-label="Facebook">
+                <a href="https://www.facebook.com/dimitent" target="_blank" rel="noopener" class="nav-social-link" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="https://www.instagram.com/dimitriadismousamas/" target="_blank" rel="noopener" class="nav-social-link" aria-label="Instagram">
@@ -160,19 +160,19 @@
                     <div class="about-features">
                         <div class="about-feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Εγγύηση ποιότητας</span>
+                            <span>Μελέτη</span>
                         </div>
                         <div class="about-feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Επαγγελματική εγκατάσταση</span>
+                            <span>Σχεδιασμός</span>
                         </div>
                         <div class="about-feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Υλικά υψηλών προδιαγραφών</span>
+                            <span>Αξιοπιστία</span>
                         </div>
                         <div class="about-feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Άμεση εξυπηρέτηση</span>
+                            <span>Τεχνογνωσία</span>
                         </div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                     <p>Η <strong>Δημητριάδης Κων. &amp; ΣΙΑ Ο.Ε.</strong> ιδρύθηκε το 1971 στη Θεσσαλονίκη και αποτελεί μία από τις παλαιότερες και πιο αξιόπιστες εταιρείες στον τομέα κατασκευής και τοποθέτησης τεντών στη Βόρεια Ελλάδα.</p>
                     <p>Με έδρα την Αγροτική Περιοχή Ιωνίας Θεσσαλονίκης, παρέχουμε ολοκληρωμένες λύσεις σε καταστήματα, εταιρείες και ιδιώτες, συνδυάζοντας παραδοσιακή εξειδίκευση με σύγχρονα υλικά και τεχνικές τοποθέτησης.</p>
                     <blockquote class="about-quote">
-                        &laquo;Πιστοί στην ποιότητα από το 1971.&raquo;
+                        &laquo;Μένουμε πιστοί στην ποιότητα.&raquo;
                     </blockquote>
                     <a href="#contact" class="btn btn-red btn-lg">
                         <i class="fas fa-phone"></i> Επικοινωνήστε μαζί μας
@@ -264,7 +264,7 @@
                         <div class="contact-icon"><i class="fas fa-clock"></i></div>
                         <div>
                             <p class="contact-label">Ώρες Λειτουργίας</p>
-                            <p>Δευτέρα – Παρασκευή: 08:00–17:00<br>Σάββατο: 08:00–14:00</p>
+                            <p>Δευτέρα – Παρασκευή: 08:00–17:00</p>
                         </div>
                     </div>
                 </div>
@@ -289,8 +289,8 @@
                         <select id="service" name="service">
                             <option value="">Επιλέξτε υπηρεσία...</option>
                             <option value="katastimaton">Τέντες Καταστημάτων</option>
-                            <option value="verantас">Τέντες Βεράντας</option>
-                            <option value="automatес">Αυτόματες Τέντες</option>
+                            <option value="verantas">Τέντες Βεράντας</option>
+                            <option value="automates">Αυτόματες Τέντες</option>
                             <option value="pergola">Περγκόλες &amp; Στέγαστρα</option>
                             <option value="syntirisi">Συντήρηση &amp; Επισκευή</option>
                         </select>
@@ -299,9 +299,15 @@
                         <label for="message">Μήνυμα</label>
                         <textarea id="message" name="message" rows="4" placeholder="Περιγράψτε τις ανάγκες σας..."></textarea>
                     </div>
+                    <!-- Honeypot κατά των bots — αόρατο για τους χρήστες, μένει πάντα κενό -->
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="website">Μην συμπληρώσετε αυτό το πεδίο</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <button type="submit" class="btn btn-red btn-lg btn-full" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> ΑΠΟΣΤΟΛΗ ΑΙΤΗΜΑΤΟΣ
                     </button>
+                    <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </div>
@@ -316,7 +322,7 @@
                         <img src="brand_assets/DIMITENT_logo_final.png" alt="DIMITENT" class="footer-logo-img">
                     </div>
                     <p class="footer-desc">Τέντες Καταστημάτων · Βεράντας<br>Αυτόματες · Περγκόλες · Εκδηλώσεων</p>
-                    <p class="footer-slogan">Από το 1971 — πιστοί στην ποιότητα.</p>
+                    <p class="footer-slogan">Μένουμε πιστοί στην ποιότητα.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Υπηρεσίες</h4>
@@ -339,7 +345,7 @@
                 <div class="footer-col">
                     <h4>Διεύθυνση</h4>
                     <p class="footer-address">Αγροτική Περιοχή Ιωνίας<br>Θεσσαλονίκης<br>Όπισθεν Φυλακών Διαβατών</p>
-                    <p class="footer-hours">Δευ–Παρ: 08:00–17:00<br>Σάβ: 08:00–14:00</p>
+                    <p class="footer-hours">Δευ–Παρ: 08:00–17:00</p>
                 </div>
             </div>
             <div class="footer-bottom">

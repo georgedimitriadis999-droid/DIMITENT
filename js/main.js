@@ -162,8 +162,26 @@
 
 
     /* ----- CONTACT FORM ----- */
+    // Το αίτημα φεύγει στο info@dimitent.gr μέσω του δικού μας serverless function
+    // (api/contact.js), που στέλνει με το SMTP του ίδιου του domain. Χωρίς τρίτους.
+    var FORM_ENDPOINT = '/api/contact';
+    var BTN_IDLE      = '<i class="fas fa-paper-plane"></i> ΑΠΟΣΤΟΛΗ ΑΙΤΗΜΑΤΟΣ';
+
     var contactForm = document.getElementById('contactForm');
     var submitBtn   = document.getElementById('submitBtn');
+    var formStatus  = document.getElementById('formStatus');
+
+    function setStatus(msg, kind) {
+        if (!formStatus) return;
+        formStatus.textContent = msg || '';
+        formStatus.className   = 'form-status' + (kind ? ' ' + kind : '');
+    }
+
+    function resetBtn() {
+        submitBtn.innerHTML = BTN_IDLE;
+        submitBtn.classList.remove('success');
+        submitBtn.disabled  = false;
+    }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
@@ -175,20 +193,62 @@
 
             if (!name || !phone) {
                 shakeBtn();
+                setStatus('Συμπληρώστε ονοματεπώνυμο και τηλέφωνο.', 'error');
                 return;
             }
 
-            // Success state
-            submitBtn.innerHTML  = '<i class="fas fa-check"></i> ΑΠΟΣΤΑΛΗΚΕ!';
-            submitBtn.classList.add('success');
-            submitBtn.disabled   = true;
+            var serviceSel = contactForm.querySelector('#service');
+            var service    = serviceSel.selectedIndex > 0
+                ? serviceSel.options[serviceSel.selectedIndex].text
+                : '—';
 
-            setTimeout(function () {
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ΑΠΟΣΤΟΛΗ ΑΙΤΗΜΑΤΟΣ';
-                submitBtn.classList.remove('success');
-                submitBtn.disabled  = false;
+            var payload = {
+                name:    name,
+                phone:   phone,
+                email:   contactForm.querySelector('#email').value.trim(),
+                service: service,
+                message: contactForm.querySelector('#message').value.trim(),
+                website: contactForm.querySelector('#website').value  // honeypot, μένει κενό
+            };
+
+            // Sending state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ΑΠΟΣΤΟΛΗ...';
+            submitBtn.disabled  = true;
+            setStatus('');
+
+            fetch(FORM_ENDPOINT, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body:    JSON.stringify(payload)
+            })
+            .then(function (res) {
+                return res.json()
+                    .catch(function () { return {}; })
+                    .then(function (data) { return { ok: res.ok, status: res.status, data: data }; });
+            })
+            .then(function (r) {
+                if (!r.ok || r.data.ok !== true) {
+                    throw new Error((r.data && r.data.error) || ('HTTP ' + r.status));
+                }
+
+                // Success state
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> ΕΣΤΑΛΗ!';
+                submitBtn.classList.add('success');
+                setStatus('Το αίτημά σας εστάλη. Θα επικοινωνήσουμε σύντομα μαζί σας.', 'success');
                 contactForm.reset();
-            }, 3500);
+
+                setTimeout(function () {
+                    resetBtn();
+                    setStatus('');
+                }, 5000);
+            })
+            .catch(function (err) {
+                // Ο ακριβής λόγος φαίνεται στην κονσόλα (F12) για διάγνωση.
+                console.warn('[DIMITENT] Αποτυχία αποστολής φόρμας:', err && err.message);
+                resetBtn();
+                shakeBtn();
+                setStatus('Η αποστολή απέτυχε. Καλέστε μας στο 2310 754.874 ή στείλτε email στο info@dimitent.gr.', 'error');
+            });
         });
     }
 

@@ -1002,6 +1002,32 @@ button { font-family: inherit; cursor: pointer; }
 #submitBtn { margin-top: 4px; }
 #submitBtn.success { background: #1a7f37; border-color: #1a7f37; }
 
+/* Honeypot — εκτός οθόνης, αόρατο, μη εστιάσιμο */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-status {
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    min-height: 1px;
+}
+
+.form-status.success { color: #1a7f37; }
+.form-status.error   { color: var(--red); }
+
+@keyframes shake {
+    0%, 100%      { transform: translateX(0); }
+    20%, 60%      { transform: translateX(-7px); }
+    40%, 80%      { transform: translateX(7px); }
+}
+
 /* ===== FOOTER ===== */
 .footer {
     background: #0d1117;
