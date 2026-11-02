@@ -6,6 +6,9 @@
     <meta name="description" content="DIMITENT — Κατασκευή & Τοποθέτηση Τεντών στη Θεσσαλονίκη. Τέντες καταστημάτων, βεράντας, περγκόλες & αυτόματες τέντες. Από το 1971. Μένουμε πιστοί στην ποιότητα.">
     <title>DIMITENT — Τέντες & Σκίαστρα Θεσσαλονίκη</title>
 
+    <!-- Η πρώτη εικόνα του slideshow κατεβαίνει με προτεραιότητα, πριν καν τρέξει η JavaScript. -->
+    <link rel="preload" as="image" href="brand_assets/slide11.png.jpg" fetchpriority="high">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -43,6 +46,9 @@
     <!-- ======= HERO ======= -->
     <section class="hero" id="home">
         <div class="hero-bg" id="heroBg">
+            <!-- Η πρώτη διαφάνεια είναι γραμμένη στο HTML ώστε να φαίνεται αμέσως.
+                 Τις υπόλοιπες τις προσθέτει το main.js αφού φορτώσει η σελίδα. -->
+            <div class="hero-slide active" style="background-image: url('brand_assets/slide11.png.jpg');"></div>
             <div class="hero-overlay"></div>
         </div>
         <div class="container hero-container">

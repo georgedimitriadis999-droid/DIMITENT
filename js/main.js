@@ -267,6 +267,9 @@
 
 
     /* ----- HERO SLIDESHOW ----- */
+    // Η πρώτη διαφάνεια (slide11) είναι ήδη μέσα στο HTML και κατεβαίνει με
+    // preload, ώστε το hero να φαίνεται αμέσως. Εδώ είναι μόνο οι υπόλοιπες:
+    // μπαίνουν μία-μία στο παρασκήνιο, αφού φορτώσει η σελίδα.
     var heroImages = [
         'brand_assets/slide3.png.jpg',
         'brand_assets/slide4.png.jpg',
@@ -275,9 +278,10 @@
         'brand_assets/slide8.png.jpg',
         'brand_assets/slide9.png.jpg',
         'brand_assets/slide10.png.jpg',
-        'brand_assets/slide11.png.jpg',
         'brand_assets/slide12.png.jpg',
-        'brand_assets/slide13.png.jpg'
+        'brand_assets/slide13.png.jpg',
+        'brand_assets/slide14.jpg',
+        'brand_assets/slide15.jpg'
     ];
 
     function shuffleArray(arr) {
@@ -296,25 +300,30 @@
         img.src = src;
     }
 
-    var heroBg       = document.getElementById('heroBg');
-    var slideEls     = [];
-    var slideIndex   = 0;
+    var heroBg        = document.getElementById('heroBg');
+    var slideIndex    = 0;
     var slideInterval = null;
 
-    function buildSlideshow(validImages) {
-        if (!validImages.length) return;
+    // Η διαφάνεια που ήρθε με το HTML είναι ήδη ορατή — ξεκινάμε από αυτήν.
+    var slideEls = heroBg
+        ? Array.prototype.slice.call(heroBg.querySelectorAll('.hero-slide'))
+        : [];
 
+    function addSlide(src) {
         var overlay = heroBg.querySelector('.hero-overlay');
+        var div     = document.createElement('div');
 
-        validImages.forEach(function (src) {
-            var div = document.createElement('div');
-            div.className = 'hero-slide';
-            div.style.backgroundImage = 'url("' + src + '")';
-            heroBg.insertBefore(div, overlay);
-            slideEls.push(div);
-        });
+        div.className = 'hero-slide';
+        div.style.backgroundImage = 'url("' + src + '")';
+        heroBg.insertBefore(div, overlay);
+        slideEls.push(div);
 
-        slideEls[0].classList.add('active');
+        // Μόλις υπάρχει δεύτερη εικόνα, αρχίζει η εναλλαγή.
+        if (slideEls.length === 2) startRotation();
+    }
+
+    function startRotation() {
+        if (slideInterval) return;
 
         slideInterval = setInterval(function () {
             slideEls[slideIndex].classList.remove('active');
@@ -323,20 +332,29 @@
         }, 5500);
     }
 
-    (function initSlideshow() {
-        var shuffled = shuffleArray(heroImages);
-        var valid    = [];
-        var checked  = 0;
+    // Μία-μία και όχι όλες μαζί, για να μην ανταγωνίζονται σε bandwidth
+    // ό,τι χρειάζεται η σελίδα για να εμφανιστεί.
+    function loadNext(queue) {
+        if (!queue.length) return;
 
-        shuffled.forEach(function (src) {
-            preloadImage(src, function (ok) {
-                if (ok) valid.push(src);
-                checked++;
-                if (checked === shuffled.length) {
-                    buildSlideshow(valid);
-                }
-            });
+        var src = queue.shift();
+        preloadImage(src, function (ok) {
+            if (ok) addSlide(src);
+            loadNext(queue);
         });
+    }
+
+    (function initSlideshow() {
+        if (!heroBg || !slideEls.length) return;
+
+        var queue = shuffleArray(heroImages);
+
+        // Περιμένουμε να εμφανιστεί η σελίδα πριν κατεβάσουμε τις υπόλοιπες.
+        if (document.readyState === 'complete') {
+            loadNext(queue);
+        } else {
+            window.addEventListener('load', function () { loadNext(queue); });
+        }
     })();
 
 })();
