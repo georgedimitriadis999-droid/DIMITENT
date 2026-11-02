@@ -1,12 +1,13 @@
 /* ============================================================
    DIMITENT — Serverless function αποστολής φόρμας επικοινωνίας
    ------------------------------------------------------------
-   Στέλνει το αίτημα στο info@dimitent.gr μέσω του SMTP του ίδιου
-   του domain (mail.dimitent.gr). Δεν εμπλέκεται καμία τρίτη
-   υπηρεσία και δεν χρειάζεται καμία επιβεβαίωση.
+   Στέλνει το αίτημα στο dimitriadismousamas@gmail.com μέσω του SMTP
+   της Google, αυθεντικοποιημένο με App Password του ίδιου λογαριασμού.
+   Δεν εμπλέκεται καμία τρίτη υπηρεσία φορμών και δεν χρειάζεται
+   καμία επιβεβαίωση παραλήπτη.
 
-   Οι τιμές ορίζονται ως Environment Variables στο Vercel —
-   ΠΟΤΕ μέσα στον κώδικα (δες .env.example).
+   Ο κωδικός (App Password) ορίζεται ως Environment Variable στο
+   Vercel — ΠΟΤΕ μέσα στον κώδικα (δες .env.example).
    ============================================================ */
 
 const nodemailer = require('nodemailer');
@@ -58,14 +59,22 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ ok: false, error: 'missing_fields' });
     }
 
-    const host = process.env.SMTP_HOST;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
+    // Μη μυστικές τιμές με προεπιλογή — αλλάζουν με environment variable αν χρειαστεί.
+    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const user = process.env.SMTP_USER || 'dimitriadismousamas@gmail.com';
     const port = Number(process.env.SMTP_PORT) || 465;
-    const to   = process.env.MAIL_TO || user;
+    const to   = process.env.MAIL_TO     || user;
 
-    if (!host || !user || !pass) {
-        console.error('[contact] Λείπουν SMTP environment variables στο Vercel.');
+    // Ο κωδικός δεν έχει προεπιλογή — μόνο από environment variable στο Vercel.
+    // Το App Password το δείχνει η Google σε 4άδες ("abcd efgh ijkl mnop"),
+    // αλλά τα κενά είναι μόνο για την εμφάνιση — τα αφαιρούμε εδώ ώστε να
+    // δουλεύει είτε το αντιγράψατε με κενά είτε χωρίς.
+    const isGmail = /(^|\.)gmail\.com$|(^|\.)googlemail\.com$/.test(host);
+    const rawPass = process.env.SMTP_PASS;
+    const pass    = isGmail && rawPass ? rawPass.replace(/\s+/g, '') : rawPass;
+
+    if (!pass) {
+        console.error('[contact] Λείπει το SMTP_PASS στα Environment Variables του Vercel.');
         return res.status(500).json({ ok: false, error: 'not_configured' });
     }
 

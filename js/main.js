@@ -162,8 +162,8 @@
 
 
     /* ----- CONTACT FORM ----- */
-    // Το αίτημα φεύγει στο info@dimitent.gr μέσω του δικού μας serverless function
-    // (api/contact.js), που στέλνει με το SMTP του ίδιου του domain. Χωρίς τρίτους.
+    // Το αίτημα φεύγει στο dimitriadismousamas@gmail.com μέσω του δικού μας
+    // serverless function (api/contact.js), που στέλνει με το SMTP της Google.
     var FORM_ENDPOINT = '/api/contact';
     var BTN_IDLE      = '<i class="fas fa-paper-plane"></i> ΑΠΟΣΤΟΛΗ ΑΙΤΗΜΑΤΟΣ';
 
@@ -247,7 +247,7 @@
                 console.warn('[DIMITENT] Αποτυχία αποστολής φόρμας:', err && err.message);
                 resetBtn();
                 shakeBtn();
-                setStatus('Η αποστολή απέτυχε. Καλέστε μας στο 2310 754.874 ή στείλτε email στο info@dimitent.gr.', 'error');
+                setStatus('Η αποστολή απέτυχε. Καλέστε μας στο 2310 754.874 ή στείλτε email στο dimitriadismousamas@gmail.com.', 'error');
             });
         });
     }
